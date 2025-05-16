@@ -52,13 +52,13 @@ __BINS = 3
 n_iterations = 5
 n_restarts = 3
 
-# Diskretisieren
+# Discretize data
 kbins_home = KBinsDiscretizer(n_bins=__BINS, encode="ordinal", strategy="uniform")
 kbins_away = KBinsDiscretizer(n_bins=__BINS, encode="ordinal", strategy="uniform")
 data[features_home] = kbins_home.fit_transform(data[features_home]).astype(int)
 data[features_away] = kbins_away.fit_transform(data[features_away]).astype(int)
 
-# Strukturdefinition
+# Define structure of GM
 structure = [
     ("home_avg_market_value", "HomeStrength"),
     ("home_nationalities", "HomeStrength"),
@@ -72,17 +72,17 @@ structure = [
     ("AwayStrength", "MatchOutcome"),
 ]
 
-# Ergebnisse für alle Durchläufe
+# Results for all runs
 all_results = []
 
-# Mehrfache Initialisierungen
+# Multiple Initializations
 for restart in range(n_restarts):
     print("Restart " + str(restart + 1))
     train_data, test_data = train_test_split(
         data.copy(), test_size=0.2, random_state=42 + restart
     )
 
-    # Zufällige Initialisierung
+    # Random Initialization
     train_data["HomeStrength"] = np.random.randint(0, __BINS, len(train_data))
     train_data["AwayStrength"] = np.random.randint(0, __BINS, len(train_data))
     for i in range(__BINS):
@@ -95,7 +95,7 @@ for restart in range(n_restarts):
 
     # Soft-EM
     for iteration in range(n_iterations):
-        print("Iteration" + str(iteration + 1))
+        print("Iteration " + str(iteration + 1))
         train_data["HomeStrength"] = train_data[
             [f"HomeStrength_{i}" for i in range(__BINS)]
         ].values.argmax(axis=1)
@@ -119,7 +119,7 @@ for restart in range(n_restarts):
             except:
                 continue
 
-    # Finales Modell
+    # Final model
     train_data["HomeStrength"] = train_data[
         [f"HomeStrength_{i}" for i in range(__BINS)]
     ].values.argmax(axis=1)
@@ -130,7 +130,7 @@ for restart in range(n_restarts):
     final_model.fit(train_data, estimator=BayesianEstimator, prior_type="BDeu")
     infer = VariableElimination(final_model)
 
-    # Vorhersage
+    # Prediction
     predictions = []
     for _, row in test_data.iterrows():
         evidence = {f: int(row[f]) for f in features_home + features_away}

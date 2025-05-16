@@ -51,12 +51,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-# Standardisierung für logistische Regression und XGBoost
+# Standardize data for logistic regression and XGBoost
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# Ergebnisse speichern
+# Save results
 reports = {}
 
 # 1. Logistic Regression
@@ -67,7 +67,7 @@ reports["Logistic Regression"] = classification_report(
     y_test, y_pred_lr, output_dict=True
 )
 
-# 2. Random Forest (kein Scaling nötig)
+# 2. Random Forest (no scaling necessary)
 rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train, y_train)
 y_pred_rf = rf.predict(X_test)
@@ -84,7 +84,7 @@ xgb.fit(X_train_scaled, y_train)
 y_pred_xgb = xgb.predict(X_test_scaled)
 reports["XGBoost"] = classification_report(y_test, y_pred_xgb, output_dict=True)
 
-# Vergleichstabelle erstellen
+# Create comparison table
 summary = {
     model: {
         "accuracy": reports[model]["accuracy"],
