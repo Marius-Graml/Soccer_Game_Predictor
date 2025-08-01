@@ -92,7 +92,7 @@ python models/baseline_models.py --dataset full --balanced True
 | `--balanced` | bool | `True`, `False` | Whether to balance class distribution |
 
 
-### 🔁 2. EM Latent Model (`em_ext.py`)
+### 🔁 2. EM Latent Model (`em.py`)
 
 Train interpretable latent variable models using the Expectation-Maximization (EM) algorithm on macro-level match features. Supports both Hard-EM and Soft-EM.
 
