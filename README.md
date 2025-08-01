@@ -74,6 +74,44 @@
 
 ---
 
+## 🛠️ How to Run the Code
+
+### 📦 1. Baseline Models (`baseline_models.py`)
+
+Train and evaluate baseline models such as Logistic Regression, Random Forest, and XGBoost using engineered macro features.
+
+#### 🔄 Example Usage
+
+```bash
+python models/baseline_models.py --dataset full --balanced True
+
+| Argument     | Type | Options         | Description                           |
+| ------------ | ---- | --------------- | ------------------------------------- |
+| `--dataset`  | str  | `small`, `full` | Select the dataset version            |
+| `--balanced` | bool | `True`, `False` | Whether to balance class distribution |
+
+
+### 🔁 2. EM Latent Model (`em_ext.py`)
+
+Train interpretable latent variable models using the Expectation-Maximization (EM) algorithm on macro-level match features. Supports both Hard-EM and Soft-EM.
+
+#### 🔄 Example Usage
+
+```bash
+python models/em_ext.py --em-type soft --balanced True --init kmeans --bins 3 --iterations 5 --restarts 3 --dataset full
+
+| Argument       | Type | Options                                | Description                                                        |
+| -------------- | ---- | -------------------------------------- | ------------------------------------------------------------------ |
+| `--em-type`    | str  | `hard`, `soft`                         | Select the EM variant: Hard-EM (greedy) or Soft-EM (probabilistic) |
+| `--balanced`   | bool | `True`, `False`                        | Whether to use class-balanced training data                        |
+| `--init`       | str  | `random`, `uniform`, `kmeans`, `multi` | Latent class initialization strategy                               |
+| `--bins`       | int  | ≥ 2                                    | Number of latent clusters (e.g., team strength levels)             |
+| `--iterations` | int  | ≥ 1                                    | Number of EM steps (only for Soft-EM)                              |
+| `--restarts`   | int  | ≥ 1                                    | Number of model restarts for stability (Soft-EM only)              |
+| `--dataset`    | str  | `small`, `full`                        | Choose the dataset variant                                         |
+
+---
+
 ## 📎 Related Links
 
 - [Project Report (PDF)](./Project_Report.pdf)
