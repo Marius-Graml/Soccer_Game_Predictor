@@ -84,6 +84,7 @@ Train and evaluate baseline models such as Logistic Regression, Random Forest, a
 
 ```bash
 python models/baseline_models.py --dataset full --balanced True
+```
 
 | Argument     | Type | Options         | Description                           |
 | ------------ | ---- | --------------- | ------------------------------------- |
@@ -99,6 +100,7 @@ Train interpretable latent variable models using the Expectation-Maximization (E
 
 ```bash
 python models/em_ext.py --em-type soft --balanced True --init kmeans --bins 3 --iterations 5 --restarts 3 --dataset full
+```
 
 | Argument       | Type | Options                                | Description                                                        |
 | -------------- | ---- | -------------------------------------- | ------------------------------------------------------------------ |
